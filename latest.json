@@ -1,9 +1,9 @@
 {
   "version": "1.0.3",
-  "url": "https://raw.githubusercontent.com/OLIGARH111/cipherion-ai-updates/main/Cipher_1.0.3_x64-setup.exe",
-  "sha256": "92d059902c66fac511fc9d0c0f3ea6cae022098fe102767ef1fbbbc895646122",
-  "size": 19907120,
-  "notes": "• Новое имя — Cipher (обращение по-прежнему «Сайфер» / «Сайф»)\n• Обновления прямо в приложении",
+  "url": "https://raw.githubusercontent.com/OLIGARH111/Cypher/main/Cypher_1.0.3_x64-setup.exe",
+  "sha256": "0232d4d702daeb0f339bcc85a08eb67d81d85aafdb1b44893850b72574c5153c",
+  "size": 19905846,
+  "notes": "• Новое имя — Cypher (обращение по-прежнему «Сайфер» / «Сайф»)\n• Обновления прямо в приложении",
   "published": "2026-10-21",
-  "signature": "4AtTLrMXdVFF1iCCC/9q9PbnjeNFsigKrnWykW2kL4xJXAD2/PKzisF/bMBrFABlgFjiHSvuMSjHQnBNSX7FAw=="
+  "signature": "e+ypHpIyp/te1m9S7O0AHvmmIFxlfSN72I3TGiAxyiQt9xMKV9pEpwpZk/fggNPUgTMZxYhsmU4/my22JrnzAQ=="
 }
