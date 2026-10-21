@@ -1,9 +1,9 @@
 {
-  "version": "1.0.3",
-  "url": "https://raw.githubusercontent.com/OLIGARH111/Cypher/main/Cypher_1.0.3_x64-setup.exe",
-  "sha256": "0232d4d702daeb0f339bcc85a08eb67d81d85aafdb1b44893850b72574c5153c",
-  "size": 19905846,
-  "notes": "• Новое имя — Cypher (обращение по-прежнему «Сайфер» / «Сайф»)\n• Обновления прямо в приложении",
+  "version": "1.0.4",
+  "url": "https://raw.githubusercontent.com/OLIGARH111/Cypher/main/Cypher_1.0.4_x64-setup.exe",
+  "sha256": "907847221c78fbb157191b38777e03901e2ff42ac457fa6d5cd0e140711ab0ed",
+  "size": 19905158,
+  "notes": "• Имя Cypher теперь везде: автозагрузка, папка данных, сообщения\n• Ваши данные (код доступа, память, настройки) переносятся автоматически",
   "published": "2026-10-21",
-  "signature": "e+ypHpIyp/te1m9S7O0AHvmmIFxlfSN72I3TGiAxyiQt9xMKV9pEpwpZk/fggNPUgTMZxYhsmU4/my22JrnzAQ=="
+  "signature": "5MSFvAQWk5okyF8bL298uPYtxiDR7fTJ6fLcxYD49tkcLiaDafCuZ5Lree6HL5rjSx1yaOsPLgaGkQKqeuWiDA=="
 }
