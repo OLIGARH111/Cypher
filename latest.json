@@ -1,9 +1,9 @@
 {
-  "version": "1.0.4",
-  "url": "https://raw.githubusercontent.com/OLIGARH111/Cypher/main/Cypher_1.0.4_x64-setup.exe",
-  "sha256": "907847221c78fbb157191b38777e03901e2ff42ac457fa6d5cd0e140711ab0ed",
-  "size": 19905158,
-  "notes": "• Имя Cypher теперь везде: автозагрузка, папка данных, сообщения\n• Ваши данные (код доступа, память, настройки) переносятся автоматически",
-  "published": "2026-10-21",
-  "signature": "5MSFvAQWk5okyF8bL298uPYtxiDR7fTJ6fLcxYD49tkcLiaDafCuZ5Lree6HL5rjSx1yaOsPLgaGkQKqeuWiDA=="
+  "version": "1.0.5",
+  "url": "https://raw.githubusercontent.com/OLIGARH111/Cypher/main/Cypher_1.0.5_x64-setup.exe",
+  "sha256": "91d8238175e596a1442aee1d3f36ad432fa3a284aeaca537e7755f93db41cf86",
+  "size": 19904908,
+  "notes": "• Локальные модели Ollama (Qwen3 и др.) отвечают сразу, без долгих «размышлений»\n• Больше времени на ответ для медленных компьютеров",
+  "published": "2026-10-30",
+  "signature": "lzEbzXcbhPW4oUqt/Swdn3RfTbwk02siL5EOi0+gLBLdNdrCC9nLUxaic63AeRE06o4mFY76KYKN0WfcoZPUCA=="
 }
