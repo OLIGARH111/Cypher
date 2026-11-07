@@ -1,9 +1,9 @@
 {
-  "version": "1.0.6",
-  "url": "https://raw.githubusercontent.com/OLIGARH111/Cypher/main/Cypher_1.0.6_x64-setup.exe",
-  "sha256": "6df4e2d064bee6454d8c10affae8c598606c93f0614a8b0bcd8c7c834c76b6c2",
-  "size": 19906382,
-  "notes": "• Новая вкладка «Обновления» в настройках: версия, проверка и установка в один клик\n• Из админ-панели убрана публикация выпусков",
-  "published": "2026-10-30",
-  "signature": "cmqvuXe/ijtXnCe+ilV3AjiGbH/3o/9k13HI7I4pzrVKKisZJUK1nFZ8jId+eotPVDp1NbADHBzRnJm4jFwNBA=="
+  "version": "1.0.7",
+  "url": "https://raw.githubusercontent.com/OLIGARH111/Cypher/main/Cypher_1.0.7_x64-setup.exe",
+  "sha256": "9997aa92e01dba36a9620f0c44157043619b55e2ccc43687d9154bc5d47bcabe",
+  "size": 19916814,
+  "notes": "Интеграция с Cipherion:\n• Вход через аккаунт Cipherion (QR-код или код) — без кода доступа\n• Пульт ПК: пишите команды боту «Cypher · ПК» в Cipherion с телефона\n• Уведомления о новых сообщениях Cipherion голосом\n• Общая память с Cypher AI в Cipherion\nНастройки → Cipherion",
+  "published": "2026-11-07",
+  "signature": "QbjXQgXXKmm1gCwXdy8w6jgtYYrVBmdMLCnse2dYdJT8nckxfcM/zLbXoFY8bm8ZrVW+k3FCaqfsEijPixtjDw=="
 }
