@@ -1,9 +1,9 @@
 {
-  "version": "1.0.8",
-  "url": "https://raw.githubusercontent.com/OLIGARH111/Cypher/main/Cypher_1.0.8_x64-setup.exe",
-  "sha256": "8903d03aa6e6a25b6b2dea694324ef0ee5f6e04cf46baa876d701207512444a6",
-  "size": 19917249,
-  "notes": "• Cipherion — отдельная вкладка в левом меню\n• Компьютером управляют из раздела AI в Cipherion: поле «Контекст» → «💻 Компьютер»\n• Отдельного чата «Cypher · ПК» больше нет",
-  "published": "2026-11-07",
-  "signature": "JMpfbg13N2qmaE8qhgOoLS/yzeH4wJG3Y8iK+qzR+fWD+byLTv1uVkdDAFe5A8DESmZJWL17StlKIRKASPRtAA=="
+  "version": "1.0.9",
+  "url": "https://raw.githubusercontent.com/OLIGARH111/Cypher/main/Cypher_1.0.9_x64-setup.exe",
+  "sha256": "ffd97ba3b6568269c7b75228d813914d8209866e247921eeaba5803bd7977026",
+  "size": 21695260,
+  "notes": "• Голосовой режим отвечает почти мгновенно: ответ генерируется один раз и озвучивается по мере появления\n• Vision снова работает: вместо отключённой Groq модели Llama 4 Scout — Qwen3.6 27B\n• Фото в чате (📎, Ctrl+V или перетаскивание): Cypher смотрит фото и решает домашнее задание по шагам",
+  "published": "2026-11-13",
+  "signature": "R9tKJhExHZ/m3KBR6EwvLmuiUJd+rB/W5BSgB3rs2+vDUQUCexPp2HToJPNsqjcz/nx674r0Snz05mSbYJwUDQ=="
 }
