@@ -6,10 +6,12 @@ $form.StartPosition='CenterScreen'
 $box=New-Object Windows.Forms.TextBox
 $box.Multiline=$true;$box.ReadOnly=$true;$box.Dock='Fill';$box.ScrollBars='Vertical'
 $box.Font=New-Object Drawing.Font 'Consolas',13
-$lines=Get-Content screenshots/verification.txt | Where-Object {$_ -match 'ACOUSTIC|PASS:|Ran |OK$'}
+$lines=Get-Content screenshots/verification.txt | Where-Object {$_.Trim() -cmatch '^(ACOUSTIC|PASS:|Ran |OK$)'}
 $box.Text="WINDOWS TEST SESSION - CYPHER 1.1.1`r`n`r`n"+($lines -join "`r`n")+"`r`n`r`nSynthetic speech fixtures. This is a test report, not the Cypher settings screen."
+$box.SelectionStart=0;$box.SelectionLength=0
 $form.Controls.Add($box)
 $form.Show()
 [Windows.Forms.Application]::DoEvents()
+$box.SelectionStart=0;$box.SelectionLength=0
 Save-Window $form.Handle '03-voice-verification'
 $form.Close()
