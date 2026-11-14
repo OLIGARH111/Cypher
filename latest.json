@@ -1,9 +1,9 @@
 {
-  "version": "1.1.0",
-  "url": "https://raw.githubusercontent.com/OLIGARH111/Cypher/main/Cypher_1.1.0_x64-update.exe",
-  "sha256": "e521193a0205bae99c046ec75b589045b4610278370a2a4348b4dcaa7d09a512",
-  "size": 173701,
-  "notes": "Cypher Operator: чтение элементов программ, нажатия и заполнение полей через Windows UI Automation в Agent Mode с подтверждением. Voice 2.0: акустическая активация Cypher/Сайфер до расшифровки, локальное шумоподавление и паузы в Piper. После обновления переустановите голосовой пакет в настройках голоса. Подходит для версий 1.0.9 и 1.0.10; оболочка остаётся 1.0.9.",
+  "version": "1.1.1",
+  "url": "https://raw.githubusercontent.com/OLIGARH111/Cypher/main/Cypher_1.1.1_x64-update.exe",
+  "sha256": "db83cb1cbc5a73fe9ce4ce1ee0675bdee3b18b42c0ed81b3eb3dbbeaa6bdc6e0",
+  "size": 174127,
+  "notes": "Исправления Operator и Voice 2.0: акустическая активация сохраняется при пустой расшифровке; после ошибки или тайм-аута действия нужно заново прочитать окно, повторное одновременное нажатие блокируется. Новый голосовой пакет не требуется, если пакет 1.1.0 уже установлен. Подходит для 1.0.9, 1.0.10 и 1.1.0; оболочка остаётся 1.0.9.",
   "published": "2026-11-14",
-  "signature": "81ACTaredcYGWnaHS4Oak7oLDxPmQ/bTKqS5nKneZhPtuIgHUOV3i6uWXVrE4PCiIja0FHTjXoRGd6yD5xdWAw=="
+  "signature": "oMmP4Q7+KZePki77wes15pkWv+xFshG+ZJwUPAB1IJLJvfa6Aa04NixjKyj+vIjpKF60D2lHyoC04GMcOlBCAg=="
 }
