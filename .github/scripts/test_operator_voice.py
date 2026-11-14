@@ -13,6 +13,15 @@ from jarvis_backend.operator import Operator
 from jarvis_backend.tools import ToolError
 
 operator=Operator()
+original_runner=operator._runner
+def diagnostic_runner(request):
+    print('UIA request:',json.dumps(request,ensure_ascii=True),flush=True)
+    if request['op'] not in ('inspect','windows'):
+        print('Fresh inspection:',json.dumps(original_runner({'op':'inspect','window':'Cypher Operator Fixture'}),ensure_ascii=True),flush=True)
+    result=original_runner(request)
+    print('UIA result:',json.dumps(result,ensure_ascii=True),flush=True)
+    return result
+operator._runner=diagnostic_runner
 def observe():
     for attempt in range(20):
         try:
