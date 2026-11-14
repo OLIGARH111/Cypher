@@ -10,7 +10,8 @@ class OperatorFixture {
   var button=new Button {Text="Apply document",AccessibleName="Apply document",Left=20,Top=220,Width=180};
   var label=new Label {Text="Waiting",Left=20,Top=270,Width=400};
   button.Click += (s,e) => { label.Text="Applied"; };
-  form.Controls.Add(edit);form.Controls.Add(secret);form.Controls.Add(button);form.Controls.Add(label);
+  var readOnly=new TextBox {AccessibleName="Read-only document",Multiline=true,ReadOnly=true,Text="Preserve",Left=260,Top=220,Width=220,Height=40};
+  form.Controls.Add(readOnly);form.Controls.Add(edit);form.Controls.Add(secret);form.Controls.Add(button);form.Controls.Add(label);
   Application.Run(form);
  }
 }

@@ -42,6 +42,12 @@ try:
     operator.run('operator_set_value', {'target':target,'text':text}, approved=True)
     target=token_for('Document text')
     assert operator.run('operator_read', {'target':target})['text'].strip()==text.strip()
+    protected=token_for('Read-only document')
+    try:
+        operator.run('operator_set_value', {'target':protected,'text':'changed'}, approved=True)
+        raise AssertionError('Read-only document changed')
+    except ToolError:
+        pass
     target=token_for('Apply document')
     operator.run('operator_invoke', {'target':target}, approved=True)
     assert any(x['name']=='Applied' for x in observe()['elements'])
@@ -52,7 +58,7 @@ except Exception as exc:
 
 from jarvis_backend.voice.pack import VoicePack
 from jarvis_backend.voice.worker import prepare_imports
-with tempfile.TemporaryDirectory() as temp:
+with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as temp:
     pack=VoicePack(Path(temp))
     asyncio.run(pack._install())
     assert pack.progress.state=='done',pack.progress.error
