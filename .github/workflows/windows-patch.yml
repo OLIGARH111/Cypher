@@ -18,7 +18,9 @@ jobs:
           & "$env:ProgramFiles\7-Zip\7z.exe" x "$PWD\Cypher_1.0.9_x64-setup.exe" "-o$appDir" -y
           if ($LASTEXITCODE -ne 0) { throw 'Original installer extraction failed' }
           $originalShell = (Get-FileHash "$appDir\Cypher.exe" -Algorithm SHA256).Hash
-          $p = Start-Process -FilePath "$PWD\Cypher_1.0.10_x64-update.exe" -ArgumentList @('/S', "/D=$appDir") -PassThru -Wait
+          $p = Start-Process -FilePath "$PWD\Cypher_1.0.10_x64-update.exe" -ArgumentList @('/S', "/D=$appDir") -PassThru
+          if (-not $p.WaitForExit(120000)) { throw 'Installer did not exit within 120 seconds' }
+          $p.Refresh()
           if ($p.ExitCode -ne 0) {
             Get-Content "$env:LOCALAPPDATA\Cypher-update-backups\last-error.txt" -ErrorAction SilentlyContinue
             throw "Patch installer failed: $($p.ExitCode)"
@@ -78,5 +80,7 @@ jobs:
       - name: Check repeated installation
         shell: pwsh
         run: |
-          $p = Start-Process -FilePath "$PWD\Cypher_1.0.10_x64-update.exe" -ArgumentList @('/S', "/D=$env:CYPHER_TEST_DIR") -PassThru -Wait
+          $p = Start-Process -FilePath "$PWD\Cypher_1.0.10_x64-update.exe" -ArgumentList @('/S', "/D=$env:CYPHER_TEST_DIR") -PassThru
+          if (-not $p.WaitForExit(120000)) { throw 'Installer did not exit within 120 seconds' }
+          $p.Refresh()
           if ($p.ExitCode -ne 0) { throw 'Repeated patch failed' }
