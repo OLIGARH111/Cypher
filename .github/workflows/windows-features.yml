@@ -1,0 +1,116 @@
+name: Validate Cypher Operator and Voice 2.0
+on:
+  push:
+    branches: [feature/operator-voice2]
+permissions:
+  contents: read
+jobs:
+  windows-update:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Extract original installation and apply update
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $appDir = Join-Path $env:RUNNER_TEMP 'CypherTest'
+          & "$env:ProgramFiles\7-Zip\7z.exe" x "$PWD\Cypher_1.0.9_x64-setup.exe" "-o$appDir" -y
+          if ($LASTEXITCODE -ne 0) { throw 'Original installer extraction failed' }
+          $originalShell = (Get-FileHash "$appDir\Cypher.exe" -Algorithm SHA256).Hash
+          $basePatch=Start-Process -FilePath "$PWD\Cypher_1.0.10_x64-update.exe" -ArgumentList @('/S', "/D=$appDir") -PassThru
+          if (-not $basePatch.WaitForExit(120000)) { throw 'Base patch timeout' }
+          if ($basePatch.ExitCode -ne 0) { throw 'Base 1.0.10 setup failed' }
+          $oldReady = $false
+          for ($i=0; $i -lt 40; $i++) {
+            foreach ($proc in @(Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'pythonw.exe' -and $_.CommandLine -like '*run_backend.py*' })) {
+              if ($proc.CommandLine -match '--port\s+(\d+)') {
+                try {
+                  $health = Invoke-RestMethod "http://127.0.0.1:$($Matches[1])/api/health" -TimeoutSec 3
+                  if ($health.version -eq '1.0.10') { $oldReady = $true; break }
+                } catch { }
+              }
+            }
+            if ($oldReady) { break }
+            Start-Sleep -Seconds 1
+          }
+          if (-not $oldReady) { throw 'Original 1.0.9 did not start' }
+          # Use precisely the silent flags used by the installed updater, with no directory override.
+          $p = Start-Process -FilePath "$PWD\Cypher_1.1.0_x64-update.exe" -ArgumentList @('/S', '/UPDATE') -PassThru
+          if (-not $p.WaitForExit(120000)) { throw 'Installer did not exit within 120 seconds' }
+          $p.Refresh()
+          if ($p.ExitCode -ne 0) {
+            Get-Content "$env:LOCALAPPDATA\Cypher-update-backups\last-error.txt" -ErrorAction SilentlyContinue
+            throw "Patch installer failed: $($p.ExitCode)"
+          }
+          if ((Get-FileHash "$appDir\Cypher.exe" -Algorithm SHA256).Hash -ne $originalShell) { throw 'Desktop shell was changed' }
+          $env:PYTHONPATH = "$appDir\backend"
+          & "$appDir\python\python.exe" -B -c "from jarvis_backend import __version__; assert __version__ == '1.1.0', __version__; print('Backend version:', __version__)"
+          if ($LASTEXITCODE -ne 0) { throw 'Backend import failed' }
+          $env:CYPHER_TEST_DIR = $appDir
+          "CYPHER_TEST_DIR=$appDir" >> $env:GITHUB_ENV
+      - name: Check desktop-launched backend and authentication
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $healthy = $false
+          for ($i=0; $i -lt 40; $i++) {
+            $processes = @(Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'pythonw.exe' -and $_.CommandLine -like '*run_backend.py*' })
+            foreach ($proc in $processes) {
+              if ($proc.CommandLine -match '--port\s+(\d+)') {
+                $port = $Matches[1]
+                try {
+                  $health = Invoke-RestMethod "http://127.0.0.1:$port/api/health" -TimeoutSec 3
+                  if ($health.version -eq '1.1.0') { $healthy = $true; break }
+                } catch { }
+              }
+            }
+            if ($healthy) { break }
+            Start-Sleep -Seconds 1
+          }
+          if (-not $healthy) {
+            Get-ChildItem "$env:APPDATA\com.cypher.desktop" -Recurse -Filter 'backend.log' -ErrorAction SilentlyContinue | ForEach-Object { Get-Content $_.FullName -Tail 40 }
+            throw 'Desktop shell did not launch a healthy 1.1.0 backend'
+          }
+          $response = Invoke-WebRequest "http://127.0.0.1:$port/api/settings" -SkipHttpErrorCheck
+          if ([int]$response.StatusCode -ne 401) { throw 'Unauthenticated API access was not rejected' }
+          Write-Host 'Desktop startup, backend health and API authentication passed.'
+      - name: Verify Windows DPAPI secret storage and backup
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $env:PYTHONPATH = "$env:CYPHER_TEST_DIR\backend"
+          @'
+          import tempfile
+          from pathlib import Path
+          from jarvis_backend.secrets_store import SecretStore
+          with tempfile.TemporaryDirectory() as folder:
+              store = SecretStore(Path(folder))
+              assert store.protection == 'dpapi+fernet'
+              store.set('groq_api_key', 'ci-fixture-not-a-real-key')
+              assert SecretStore(Path(folder)).get('groq_api_key') == 'ci-fixture-not-a-real-key'
+              assert b'ci-fixture-not-a-real-key' not in (Path(folder) / 'secrets.bin').read_bytes()
+          print('Windows DPAPI storage passed')
+          '@ | & "$env:CYPHER_TEST_DIR\python\python.exe" -B -
+          if ($LASTEXITCODE -ne 0) { throw 'Windows secret storage test failed' }
+          $receipts = @(Get-ChildItem "$env:LOCALAPPDATA\Cypher-update-backups" -Recurse -Filter receipt.json)
+          if ($receipts.Count -lt 1) { throw 'No backup receipt created' }
+      - name: Check repeated installation
+        shell: pwsh
+        run: |
+          $p = Start-Process -FilePath "$PWD\Cypher_1.1.0_x64-update.exe" -ArgumentList @('/S', "/D=$env:CYPHER_TEST_DIR") -PassThru
+          if (-not $p.WaitForExit(120000)) { throw 'Installer did not exit within 120 seconds' }
+          $p.Refresh()
+          if ($p.ExitCode -ne 0) { throw 'Repeated patch failed' }
+
+      - name: Build UI Automation fixture
+        shell: pwsh
+        run: |
+          & "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\csc.exe" /nologo /target:winexe /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /out:OperatorFixture.exe .github/scripts/operator_fixture.cs
+          if ($LASTEXITCODE -ne 0) { throw 'Fixture compilation failed' }
+          Start-Process "$PWD\OperatorFixture.exe"
+      - name: Validate real Operator and Voice 2.0 on Windows
+        shell: pwsh
+        run: |
+          & "$env:CYPHER_TEST_DIR\python\python.exe" -B .github/scripts/test_operator_voice.py
+          if ($LASTEXITCODE -ne 0) { throw 'Feature validation failed' }
