@@ -13,15 +13,6 @@ from jarvis_backend.operator import Operator
 from jarvis_backend.tools import ToolError
 
 operator=Operator()
-original_runner=operator._runner
-def diagnostic_runner(request):
-    print('UIA request:',json.dumps(request,ensure_ascii=True),flush=True)
-    if request['op'] not in ('inspect','windows'):
-        print('Fresh inspection:',json.dumps(original_runner({'op':'inspect','window':'Cypher Operator Fixture'}),ensure_ascii=True),flush=True)
-    result=original_runner(request)
-    print('UIA result:',json.dumps(result,ensure_ascii=True),flush=True)
-    return result
-operator._runner=diagnostic_runner
 def observe():
     for attempt in range(20):
         try:
@@ -57,6 +48,12 @@ try:
         raise AssertionError('Read-only document changed')
     except ToolError:
         pass
+    try:
+        operator.run('operator_read', {'target':protected})
+        raise AssertionError('Failed mutation left target reusable')
+    except ToolError:
+        pass
+    assert operator.run('operator_read', {'target':token_for('Read-only document')})['text'].strip()=='Preserve'
     target=token_for('Apply document')
     operator.run('operator_invoke', {'target':target}, approved=True)
     assert any(x['name']=='Applied' for x in observe()['elements'])
@@ -89,6 +86,10 @@ with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as temp:
     import numpy as np
     assert np.array_equal(denoise(np.zeros(16000)),np.zeros(16000))
     print('PASS: Windows voice denoiser',flush=True)
+    import unittest
+    suite=unittest.defaultTestLoader.discover('.github/scripts',pattern='test_operator_voice2.py')
+    result=unittest.TextTestRunner(verbosity=2).run(suite)
+    assert result.wasSuccessful(), 'Operator/voice regression tests failed'
 
 if operator_error:
     raise AssertionError(operator_error)
