@@ -106,7 +106,7 @@ jobs:
       - name: Build UI Automation fixture
         shell: pwsh
         run: |
-          & "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\csc.exe" /nologo /target:winexe /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /out:OperatorFixture.exe .github/scripts/operator_fixture.cs
+          & "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\csc.exe" /nologo /target:winexe /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /out:OperatorFixture.exe "$PWD\.github\scripts\operator_fixture.cs"
           if ($LASTEXITCODE -ne 0) { throw 'Fixture compilation failed' }
           Start-Process "$PWD\OperatorFixture.exe"
       - name: Validate real Operator and Voice 2.0 on Windows
@@ -114,3 +114,4 @@ jobs:
         run: |
           & "$env:CYPHER_TEST_DIR\python\python.exe" -B .github/scripts/test_operator_voice.py
           if ($LASTEXITCODE -ne 0) { throw 'Feature validation failed' }
+
