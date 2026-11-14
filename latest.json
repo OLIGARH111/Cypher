@@ -1,9 +1,9 @@
 {
-  "version": "1.0.9",
-  "url": "https://raw.githubusercontent.com/OLIGARH111/Cypher/main/Cypher_1.0.9_x64-setup.exe",
-  "sha256": "ffd97ba3b6568269c7b75228d813914d8209866e247921eeaba5803bd7977026",
-  "size": 21695260,
-  "notes": "• Голосовой режим отвечает почти мгновенно: ответ генерируется один раз и озвучивается по мере появления\n• Vision снова работает: вместо отключённой Groq модели Llama 4 Scout — Qwen3.6 27B\n• Фото в чате (📎, Ctrl+V или перетаскивание): Cypher смотрит фото и решает домашнее задание по шагам",
-  "published": "2026-11-13",
-  "signature": "R9tKJhExHZ/m3KBR6EwvLmuiUJd+rB/W5BSgB3rs2+vDUQUCexPp2HToJPNsqjcz/nx674r0Snz05mSbYJwUDQ=="
+  "version": "1.0.10",
+  "url": "https://raw.githubusercontent.com/OLIGARH111/Cypher/main/Cypher_1.0.10_x64-update.exe",
+  "sha256": "8675ec9c598f78f7d7bc88cf5664f05cf1d5078f849a6cec144731b61bf514e1",
+  "size": 133890,
+  "notes": "Обновление безопасности серверной части для Cypher 1.0.9. Усилены проверка и загрузка обновлений, запись зашифрованных секретов и ограничение размера голосовых библиотек. Перед заменой файлов создаётся резервная копия. Оболочка приложения остаётся версии 1.0.9. Для версий ниже 1.0.9 сначала установите 1.0.9.",
+  "published": "2026-11-14",
+  "signature": "naM17lori3O7zhX52Jqse/XqE1j4n3a0SPr+yjlJ70JAhjb7p4e7wNnseIBdoBd4pLmRPPGzHxqTFTqzBG8hDQ=="
 }
