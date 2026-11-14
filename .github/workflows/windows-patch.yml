@@ -18,7 +18,23 @@ jobs:
           & "$env:ProgramFiles\7-Zip\7z.exe" x "$PWD\Cypher_1.0.9_x64-setup.exe" "-o$appDir" -y
           if ($LASTEXITCODE -ne 0) { throw 'Original installer extraction failed' }
           $originalShell = (Get-FileHash "$appDir\Cypher.exe" -Algorithm SHA256).Hash
-          $p = Start-Process -FilePath "$PWD\Cypher_1.0.10_x64-update.exe" -ArgumentList @('/S', "/D=$appDir") -PassThru
+          Start-Process -FilePath "$appDir\Cypher.exe"
+          $oldReady = $false
+          for ($i=0; $i -lt 40; $i++) {
+            foreach ($proc in @(Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'pythonw.exe' -and $_.CommandLine -like '*run_backend.py*' })) {
+              if ($proc.CommandLine -match '--port\s+(\d+)') {
+                try {
+                  $health = Invoke-RestMethod "http://127.0.0.1:$($Matches[1])/api/health" -TimeoutSec 3
+                  if ($health.version -eq '1.0.9') { $oldReady = $true; break }
+                } catch { }
+              }
+            }
+            if ($oldReady) { break }
+            Start-Sleep -Seconds 1
+          }
+          if (-not $oldReady) { throw 'Original 1.0.9 did not start' }
+          # Use precisely the silent flags used by the installed updater, with no directory override.
+          $p = Start-Process -FilePath "$PWD\Cypher_1.0.10_x64-update.exe" -ArgumentList @('/S', '/UPDATE') -PassThru
           if (-not $p.WaitForExit(120000)) { throw 'Installer did not exit within 120 seconds' }
           $p.Refresh()
           if ($p.ExitCode -ne 0) {
