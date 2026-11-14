@@ -30,20 +30,25 @@ def token_for(name):
     assert len(items)==1, (name,snap)
     return items[0]['target']
 
-target=token_for('Document text')
+operator_error = None
 try:
-    operator.run('operator_set_value', {'target':target,'text':'unapproved','confirmed':True})
-    raise AssertionError('Unapproved UI mutation accepted')
-except ToolError:
-    pass
-text='Cypher Operator\r\nПроверка документа'
-operator.run('operator_set_value', {'target':target,'text':text}, approved=True)
-target=token_for('Document text')
-assert operator.run('operator_read', {'target':target})['text'].strip()==text.strip()
-target=token_for('Apply document')
-operator.run('operator_invoke', {'target':target}, approved=True)
-assert any(x['name']=='Applied' for x in observe()['elements'])
-print('PASS: real Windows UIA inspect, protected fields, approval, text entry, read-back and button invocation',flush=True)
+    target=token_for('Document text')
+    try:
+        operator.run('operator_set_value', {'target':target,'text':'unapproved','confirmed':True})
+        raise AssertionError('Unapproved UI mutation accepted')
+    except ToolError:
+        pass
+    text='Cypher Operator\r\nПроверка документа'
+    operator.run('operator_set_value', {'target':target,'text':text}, approved=True)
+    target=token_for('Document text')
+    assert operator.run('operator_read', {'target':target})['text'].strip()==text.strip()
+    target=token_for('Apply document')
+    operator.run('operator_invoke', {'target':target}, approved=True)
+    assert any(x['name']=='Applied' for x in observe()['elements'])
+    print('PASS: real Windows UIA inspect, protected fields, approval, text entry, read-back and button invocation',flush=True)
+except Exception as exc:
+    operator_error = str(exc)
+    print("Operator validation error:", operator_error, flush=True)
 
 from jarvis_backend.voice.pack import VoicePack
 from jarvis_backend.voice.worker import prepare_imports
@@ -69,3 +74,6 @@ with tempfile.TemporaryDirectory() as temp:
     import numpy as np
     assert np.array_equal(denoise(np.zeros(16000)),np.zeros(16000))
     print('PASS: Windows voice denoiser',flush=True)
+
+if operator_error:
+    raise AssertionError(operator_error)
