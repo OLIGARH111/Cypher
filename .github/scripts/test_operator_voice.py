@@ -81,6 +81,7 @@ with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as temp:
             audio=decode_wav((fixtures/f'{language}_{index}.wav').read_bytes())
             actual=detector.detect(audio)
             assert actual==(index<3),(language,index,actual)
+            print(f'ACOUSTIC {language.upper()} sample {index+1}: wake={actual}; expected={index<3} - PASS',flush=True)
     print('PASS: verified voice pack and 14 bilingual acoustic wake tests on Windows',flush=True)
     from jarvis_backend.voice.denoise import denoise
     import numpy as np

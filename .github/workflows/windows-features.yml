@@ -103,6 +103,11 @@ jobs:
           $p.Refresh()
           if ($p.ExitCode -ne 0) { throw 'Repeated patch failed' }
 
+      - name: Capture running Cypher
+        shell: pwsh
+        run: |
+          . .github/scripts/capture.ps1
+          Save-Process 'Cypher' '01-cypher'
       - name: Build UI Automation fixture
         shell: pwsh
         run: |
@@ -112,5 +117,18 @@ jobs:
       - name: Validate real Operator and Voice 2.0 on Windows
         shell: pwsh
         run: |
-          & "$env:CYPHER_TEST_DIR\python\python.exe" -B .github/scripts/test_operator_voice.py
+          & "$env:CYPHER_TEST_DIR\python\python.exe" -B .github/scripts/test_operator_voice.py 2>&1 | Tee-Object -FilePath screenshots/verification.txt
           if ($LASTEXITCODE -ne 0) { throw 'Feature validation failed' }
+      - name: Capture Operator and voice verification
+        shell: pwsh
+        run: |
+          . .github/scripts/capture.ps1
+          Save-Process 'OperatorFixture' '02-operator'
+          & pwsh -File .github/scripts/report.ps1
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cypher-windows-screenshots
+          path: screenshots/
+          retention-days: 7
