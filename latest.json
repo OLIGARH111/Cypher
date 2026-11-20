@@ -1,9 +1,9 @@
 {
-  "version": "1.1.1",
-  "url": "https://raw.githubusercontent.com/OLIGARH111/Cypher/main/Cypher_1.1.1_x64-setup.exe",
-  "sha256": "9db779025572d2b17c88be5125ed2592cf732c87cec51b9ca2a8b5220d2dffa0",
-  "size": 21289642,
-  "notes": "Полный установщик Cypher для Windows: оболочка 1.0.9 и backend 1.1.1 (Operator и Voice 2.0). Его можно скачать и поставить на новый компьютер. Если Cypher уже установлен, запуск с /UPDATE обновляет только backend и не заменяет оболочку.",
+  "version": "1.1.2",
+  "url": "https://raw.githubusercontent.com/OLIGARH111/Cypher/main/Cypher_1.1.2_x64-update.exe",
+  "sha256": "dc0a81443af8ae81d2d1b4f40bd4b79f63a2d06d78bead149faeff609b2c7eee",
+  "size": 144012,
+  "notes": "Cypher 1.1.2: команда «скажи, когда». Сайфер один раз следит за активным окном и сообщает, когда появится названный текст, ошибка или окно закроется. Окно только читается, пароли не читаются, нажатий нет. Патч backend для уже установленного Cypher 1.1.1 с оболочкой 1.0.9. Новую установку начинайте с Cypher_1.0.9_x64-setup.exe или полного Cypher_1.1.1_x64-setup.exe, затем проверьте обновления. Настройки и база не изменяются.",
   "published": "2026-11-20",
-  "signature": "zt+9qcTf1nmyQ6XKcY0zc+5Kj8nmgJcJDoMdH+peIiHatBDax59ymQxt5PD588rw2E6OC0Mm7ZnllOS5J6+UAQ=="
+  "signature": "PPzMMxoMFH0VEXpDuJReH2toMJUhbUM4I1XBxHnIwQadlHyqhs71419BFrmfrgl708DaPzUK8x4/5IOPb4xWAA=="
 }
