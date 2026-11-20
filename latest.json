@@ -1,9 +1,9 @@
 {
   "version": "1.1.1",
-  "url": "https://raw.githubusercontent.com/OLIGARH111/Cypher/main/Cypher_1.1.1_x64-update.exe",
-  "sha256": "db83cb1cbc5a73fe9ce4ce1ee0675bdee3b18b42c0ed81b3eb3dbbeaa6bdc6e0",
-  "size": 174127,
-  "notes": "Исправления Operator и Voice 2.0: акустическая активация сохраняется при пустой расшифровке; после ошибки или тайм-аута действия нужно заново прочитать окно, повторное одновременное нажатие блокируется. Новый голосовой пакет не требуется, если пакет 1.1.0 уже установлен. Подходит для 1.0.9, 1.0.10 и 1.1.0; оболочка остаётся 1.0.9.",
-  "published": "2026-11-14",
-  "signature": "oMmP4Q7+KZePki77wes15pkWv+xFshG+ZJwUPAB1IJLJvfa6Aa04NixjKyj+vIjpKF60D2lHyoC04GMcOlBCAg=="
+  "url": "https://raw.githubusercontent.com/OLIGARH111/Cypher/main/Cypher_1.1.1_x64-setup.exe",
+  "sha256": "9db779025572d2b17c88be5125ed2592cf732c87cec51b9ca2a8b5220d2dffa0",
+  "size": 21289642,
+  "notes": "Полный установщик Cypher для Windows: оболочка 1.0.9 и backend 1.1.1 (Operator и Voice 2.0). Его можно скачать и поставить на новый компьютер. Если Cypher уже установлен, запуск с /UPDATE обновляет только backend и не заменяет оболочку.",
+  "published": "2026-11-20",
+  "signature": "zt+9qcTf1nmyQ6XKcY0zc+5Kj8nmgJcJDoMdH+peIiHatBDax59ymQxt5PD588rw2E6OC0Mm7ZnllOS5J6+UAQ=="
 }
